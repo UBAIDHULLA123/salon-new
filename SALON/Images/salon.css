@@ -1,0 +1,1430 @@
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+
+body {
+    font-family: Arial, sans-serif;
+    background: #fffaf7;
+}
+
+
+/* 2. Hide Switch Input  This is a invisible checkbox Open And Close */
+.hidden-toggle,
+.tab-radio {
+    display: none;
+}
+
+
+/* 3.Nav Bar*/
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 80px;
+    padding: 0 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+
+.logo span {
+    font-family: Georgia, serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    color: #b08d57;
+}
+
+.logo small {
+    margin-top: 5px;
+    font-size: 8px;
+    letter-spacing: 3px;
+    color: #777;
+}
+
+/* main links (Home / About / Services / Contact) */
+nav#mainNav {
+    display: flex;
+    align-items: center;
+    gap: 38px;
+}
+
+nav a {
+    position: relative;
+    text-decoration: none;
+    color: #333;
+    font-size: 15px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+nav a:hover,
+nav a.active {
+    color: #b08d57;
+}
+
+/* Small gold underline below the active link 
+nav a.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 100%;
+    height: 2px;
+    background: #b08d57;
+}
+*/
+/* "Book Appointment" button on the right of the navbar */
+.book-Appointment-btn {
+    text-decoration: none;
+    padding: 13px 24px;
+    background: #b08d57;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+.book-Appointment-btn:hover,
+.book-btn:hover {
+    background: #8f703f;
+}
+
+
+/* 
+   4. HAMBURGER ICON (mobile menu button)
+   Hidden by default. We only show it on small screens
+   (see the @media block near the bottom). */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.hamburger span {
+    width: 26px;
+    height: 3px;
+    background: #333;
+    border-radius: 3px;
+    transition: 0.3s;
+}
+
+/* When #nav-toggle is checked, turn the 3 lines into an "X" */
+#nav-toggle:checked ~ header .hamburger span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+#nav-toggle:checked ~ header .hamburger span:nth-child(2) { opacity: 0; }
+#nav-toggle:checked ~ header .hamburger span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+
+/* 
+   5. Service Menu (the big dropdown under "Services")
+    */
+.service-menu-wrapper {
+    position: relative;
+}
+
+.service-btn {
+    background: none;
+    border: none;
+    font-size: 15px;
+    color: #333;
+    cursor: pointer;
+}
+
+.service-btn span {
+    margin-left: 5px;
+    color: #b08d57;
+    font-size: 18px;
+}
+
+/* The dropdown panel itself.
+   Hidden by default (display: none). */
+.service-overlay {
+    display: none;
+    position: absolute;
+    top: 45px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* size to match the "Gents / Ladies" step-1 screen you shared:
+       just wide/tall enough to hug the two columns, not the huge
+       850px x 380px box from before */
+    width: 480px;
+    min-height: 220px;
+
+    background: #ffffff;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+
+    z-index: 1000;
+}
+
+/* THIS is the important rule for hover-to-open / move-away-to-close: */
+.service-menu-wrapper:hover .service-overlay {
+    display: block;
+}
+
+/* STEP 1 inside the dropdown: choose Gents or Ladies */
+.gender-select {
+    display: flex;
+    width: 100%;
+    min-height: 220px;
+}
+
+.gender-block {
+    flex: 1;
+    padding: 25px 30px;
+}
+
+.gender-block:first-child {
+    border-right: 1px solid #eee;
+}
+
+.gender-block h4 {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    color: #29231f;
+    margin-bottom: 18px;
+}
+
+.gender-link {
+    display: block;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.gender-link:hover {
+    background: #faf3ea;
+    color: #b08d57;
+}
+
+/* the "Full Menu" panels, hidden until their toggle is checked */
+.fullmenu-panel {
+    display: none;
+    padding: 30px;
+}
+
+/* Gents Full Menu: hide the gender-choice screen, show the gents list */
+#view-gents-full:checked ~ header .gender-select {
+    display: none;
+}
+#view-gents-full:checked ~ header .fullmenu-gents {
+    display: block;
+}
+
+/* Ladies Full Menu: hide the gender-choice screen, show ladies panel
+   as a 2-column layout (sidebar + content) */
+#view-ladies-full:checked ~ header .gender-select {
+    display: none;
+}
+#view-ladies-full:checked ~ header .fullmenu-ladies {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+}
+
+/* The Gents/Ladies "Full Menu" screens have a lot more content
+   (tabs, grids of services), so give the overlay more room only
+   while one of those is open. The small 480px box is just for the
+   first Gents/Ladies picker screen. */
+#view-gents-full:checked ~ header .service-overlay,
+#view-ladies-full:checked ~ header .service-overlay {
+    width: 850px;
+    min-height: 420px;
+}
+
+.fullmenu-back {
+    display: inline-block;
+    background: none;
+    border: none;
+    color: #b08d57;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: 18px;
+    grid-column: 1 / -1;
+}
+
+
+/* ---------- 5a. LADIES FULL MENU — CATEGORY TABS ----------
+   Nine radio buttons (in the HTML) control nine categories.
+   Only the category whose radio is "checked" gets shown. */
+.tab-sidebar {
+    grid-column: 1;
+    background: #faf7f2;
+    border-radius: 8px;
+    overflow: hidden;
+    align-self: start;
+}
+
+.tab-sidebar .service-category {
+    display: block;
+    padding: 16px 15px;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.tab-content {
+    display: none; /* hidden by default, shown below when its radio is checked */
+    grid-column: 2;
+    grid-row: 2;
+    padding-left: 25px;
+}
+
+.tab-content h5 {
+    color: #b08d57;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin: 18px 0 10px;
+}
+
+.tab-content h5:first-of-type {
+    margin-top: 0;
+}
+
+.price-tag {
+    color: #b08d57;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* Show the matching content block + highlight the matching sidebar
+   label, based on which radio button is currently checked. */
+#lt-qt:checked ~ .tab-sidebar label[for="lt-qt"],
+#lt-ht:checked ~ .tab-sidebar label[for="lt-ht"],
+#lt-sc:checked ~ .tab-sidebar label[for="lt-sc"],
+#lt-ao:checked ~ .tab-sidebar label[for="lt-ao"],
+#lt-bl:checked ~ .tab-sidebar label[for="lt-bl"],
+#lt-dt:checked ~ .tab-sidebar label[for="lt-dt"],
+#lt-mo:checked ~ .tab-sidebar label[for="lt-mo"],
+#lt-bm:checked ~ .tab-sidebar label[for="lt-bm"],
+#lt-oc:checked ~ .tab-sidebar label[for="lt-oc"] {
+    color: #b08d57;
+    background: #fff;
+    font-weight: 600;
+}
+
+#lt-qt:checked ~ #content-lt-qt,
+#lt-ht:checked ~ #content-lt-ht,
+#lt-sc:checked ~ #content-lt-sc,
+#lt-ao:checked ~ #content-lt-ao,
+#lt-bl:checked ~ #content-lt-bl,
+#lt-dt:checked ~ #content-lt-dt,
+#lt-mo:checked ~ #content-lt-mo,
+#lt-bm:checked ~ #content-lt-bm,
+#lt-oc:checked ~ #content-lt-oc {
+    display: block;
+}
+
+
+/* ============================================================
+   6. HERO SECTION (big banner at the top)
+   ============================================================ */
+.hero {
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    padding: 60px 7%;
+    background: #fffaf7;
+    overflow: hidden;
+}
+
+.hero-content {
+    width: 50%;
+    padding-right: 50px;
+}
+
+.hero-subtitle {
+    color: #b08d57;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+    font-size: 65px;
+    line-height: 1.08;
+    font-weight: 500;
+    color: #29231f;
+    margin-bottom: 25px;
+}
+
+.hero h1 span {
+    color: #b08d57;
+    font-style: italic;
+}
+
+.hero-description {
+    max-width: 500px;
+    color: #777;
+    font-size: 16px;
+    line-height: 1.8;
+    margin-bottom: 35px;
+}
+
+.hero-buttons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.primary-btn,
+.secondary-btn {
+    text-decoration: none;
+    padding: 15px 28px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+
+.primary-btn {
+    background: #b08d57;
+    color: white;
+}
+
+.primary-btn:hover {
+    background: white;
+    border: 1px solid #b08d57;
+    color: #b08d57;
+}
+
+.secondary-btn {
+    border: 1px solid #b08d57;
+    color: #b08d57;
+}
+
+.secondary-btn:hover {
+    background: #b08d57;
+    color: white;
+}
+
+.hero-image {
+    width: 50%;
+    height: 560px;
+    overflow: hidden;
+}
+
+.hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+
+/* ============================================================
+   7. ABOUT SECTION
+   ============================================================ */
+.about {
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    padding: 100px 7%;
+    background: #ffffff;
+}
+
+.about-image {
+    width: 48%;
+    position: relative;
+}
+
+.about-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-top-right-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+
+.experience-box {
+    position: absolute;
+    right: -35px;
+    bottom: 35px;
+    width: 160px;
+    height: 150px;
+
+    background: #b08d57;
+    color: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.experience-box:hover {
+    transform: translateY(-10px);
+    box-shadow: inset 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.experience-box strong {
+    font-family: Georgia, serif;
+    font-size: 42px;
+    font-weight: 500;
+}
+
+.experience-box span {
+    font-size: 12px;
+    line-height: 1.5;
+    letter-spacing: 1px;
+}
+
+.about-content {
+    width: 52%;
+    padding-left: 20px;
+}
+
+.about-subtitle {
+    color: #b08d57;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.about-content h2 {
+    font-family: Georgia, serif;
+    font-size: 48px;
+    line-height: 1.2;
+    font-weight: 500;
+    color: #29231f;
+    margin-bottom: 25px;
+}
+
+.about-content h2 span {
+    color: #b08d57;
+    font-style: italic;
+}
+
+.about-text {
+    color: #777;
+    font-size: 15px;
+    line-height: 1.8;
+    max-width: 580px;
+    margin-bottom: 15px;
+}
+
+.about-features {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+    margin-bottom: 35px;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.feature-icon {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #b08d57;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #b08d57;
+}
+
+.feature h4 {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 4px;
+}
+
+.feature p {
+    font-size: 11px;
+    color: #999;
+}
+
+.about-btn {
+    display: inline-block;
+    padding: 14px 28px;
+    background: #b08d57;
+    color: white;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.about-btn:hover {
+    background: #8f703f;
+}
+
+
+/* ============================================================
+   8. SERVICE CARDS (used for both Gents and Ladies sections)
+   ============================================================ */
+.featured-section {
+    width: 90%;
+    margin: 25px auto 80px;
+}
+
+.featured-section h1 {
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 30px;
+    color: #3f3b42;
+}
+
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+}
+
+.service-card {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #e8e8e8;
+    border-radius: 17px;
+    overflow: hidden;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.07);
+    transition: 0.35s;
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.12);
+}
+
+.featured-card {
+    border: 1px solid #b08d57;
+}
+
+.image-area {
+    height: 230px;
+    position: relative;
+    overflow: hidden;
+    background: #fdf8f8;
+}
+
+.image-area img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.5s;
+}
+
+.service-card:hover img {
+    transform: scale(1.06);
+}
+
+.badge {
+    position: absolute;
+    top: 25px;
+    left: 30px;
+    z-index: 2;
+    padding: 6px 13px;
+    background: #b08d57;
+    color: white;
+    border-radius: 20px;
+    font-size: 11px;
+}
+
+.service-info {
+    padding: 17px 20px 20px;
+}
+
+.service-info h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #39353c;
+}
+
+.service-info p {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #666;
+    min-height: 40px;
+}
+
+.rating {
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.rating span {
+    color: #777;
+}
+
+.price,
+.price-regular {
+    margin-top: 10px;
+    font-size: 13px;
+}
+
+.price-long {
+    margin-top: -11px;
+    font-size: 13px;
+}
+
+.price strong {
+    font-size: 14px;
+}
+
+.bottom-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 8px;
+}
+
+.book-btn {
+    flex: 1;
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    background: #b08d57;
+    color: white;
+    cursor: pointer;
+}
+
+.heart-btn {
+    width: 43px;
+    height: 43px;
+    border: 1px solid #777;
+    background: white;
+    border-radius: 50%;
+    color: #b08d57;
+    font-size: 20px;
+    cursor: pointer;
+}
+/* Sub-heading for service sections Full Menu Gents */
+.sub-heading{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 30px;
+    color: #b08d57;
+
+}
+/* 9. RESPONSIVE (MOBILE) STYLES
+   Everything below only applies on small screens. */
+@media (max-width: 900px) {
+
+    .navbar {
+        padding: 0 25px;
+    }
+
+    /* show the hamburger, hide the normal link row until opened */
+    .hamburger {
+        display: flex;
+    }
+
+    nav#mainNav {
+        display: none;
+        position: fixed;
+        top: 80px;
+        left: 0;
+        width: 100%;
+        height: 80vh;
+
+        background: #fff;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+        overflow-y: auto;
+        padding: 10px 0;
+        box-shadow: 0 10px 20px #ddd;
+        z-index: 1100;
+    }
+
+    #nav-toggle:checked ~ header nav#mainNav {
+        display: flex;
+    }
+
+    nav#mainNav > a {
+        width: 100%;
+        padding: 16px 24px;
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+    .service-menu-wrapper {
+        width: 100%;
+    }
+
+    .service-btn {
+        display: block;
+        width: 100%;
+        padding: 16px 24px;
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+    .service-overlay {
+        position: static;
+        width: 100%;
+        transform: none;
+        box-shadow: none;
+        border: none;
+    }
+
+    .gender-select {
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .gender-block:first-child {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    #view-ladies-full:checked ~ header .fullmenu-ladies {
+        grid-template-columns: 1fr;
+    }
+
+    .tab-sidebar {
+        display: flex;
+        overflow-x: auto;
+        grid-column: 1;
+    }
+
+    .tab-sidebar .service-category {
+        white-space: nowrap;
+        border-bottom: none;
+        border-right: 1px solid #eee;
+    }
+
+    .tab-content {
+        grid-column: 1;
+        grid-row: 3;
+        padding-left: 0;
+        padding-top: 15px;
+    }
+
+    /* hero + about stack vertically on tablets/phones */
+    .hero {
+        flex-direction: column;
+        padding: 50px 25px;
+    }
+
+    .hero-content {
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 40px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+    .hero-image {
+        width: 100%;
+        height: 450px;
+    }
+
+    .about {
+        flex-direction: column;
+        padding: 70px 25px;
+        gap: 60px;
+    }
+
+    .about-image,
+    .about-content {
+        width: 100%;
+    }
+
+    .about-content {
+        padding-left: 0;
+    }
+
+    .about-content h2 {
+        font-size: 40px;
+    }
+
+    .experience-box {
+        right: 20px;
+    }
+
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    .hero-buttons {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-image {
+        height: 350px;
+    }
+
+    .about-image {
+        height: 430px;
+    }
+
+    .about-content h2 {
+        font-size: 34px;
+    }
+
+    .about-features {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* 14. Booking Section */
+
+.booking {
+    padding: 100px 7%;
+
+    background: #29231f;
+
+    color: white;
+}
+
+
+.booking-content {
+    max-width: 650px;
+
+    margin: auto;
+
+    text-align: center;
+}
+
+
+.booking-content h2 {
+    font-family: Georgia, serif;
+
+    font-size: 45px;
+
+    font-weight: 500;
+
+    margin-bottom: 15px;
+}
+
+
+.booking-content > p {
+    color: #cccccc;
+}
+
+
+.booking form {
+    display: grid;
+
+    gap: 15px;
+
+    margin-top: 35px;
+}
+
+
+.booking input,
+.booking select {
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 5px;
+
+    font-size: 14px;
+}
+
+
+.booking button {
+    width: fit-content;
+
+    margin: 10px auto;
+}
+
+
+/* 
+   15. Contect Section
+   */
+
+.contact {
+    padding: 100px 7%;
+
+    background: #fffaf7;
+}
+
+
+.contact-container {
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 25px;
+}
+
+
+.contact-box {
+    background: white;
+
+    padding: 35px;
+
+    text-align: center;
+
+    border: 1px solid #eeeeee;
+
+    border-radius: 10px;
+
+    transition: 0.3s;
+}
+
+
+.contact-box:hover {
+    transform: translateY(-5px);
+
+    box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+}
+
+
+.contact-icon {
+    font-size: 30px;
+
+    margin-bottom: 15px;
+}
+
+
+.contact-box h3 {
+    color: #b08d57;
+
+    margin-bottom: 10px;
+}
+
+
+.contact-box p {
+    color: #777777;
+
+    line-height: 1.7;
+}
+
+
+/* 
+   16. Footer */
+
+footer {
+    background: #29231f;
+
+    color: white;
+
+    text-align: center;
+
+    padding: 40px 20px;
+}
+
+
+.footer-logo {
+    color: #b08d57;
+
+    font-family: Georgia, serif;
+
+    font-size: 25px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 8px;
+}
+
+
+.footer-links {
+    display: flex;
+
+    justify-content: center;
+
+    gap: 25px;
+
+    margin: 20px 0;
+}
+
+
+.footer-links a {
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 13px;
+}
+
+
+.footer-links a:hover {
+    color: #b08d57;
+}
+
+
+.copyright {
+    color: #999999;
+
+    font-size: 12px;
+
+    margin-top: 15px;
+}
+
+
+/* 
+   17. Table Responsive
+   900px கீழே இந்த code work ஆகும்.
+    */
+
+@media (max-width: 1100px) {
+
+    .navbar {
+        padding: 0 30px;
+    }
+
+
+    .service-category-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+
+    .services-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* 
+   18. Mobile Responsive
+   900px கீழே mobile menu
+    */
+
+@media (max-width: 900px) {
+
+
+    /* Navbar */
+    .navbar {
+        padding: 0 25px;
+    }
+
+
+    /* Hamburger show */
+    .hamburger {
+        display: flex;
+    }
+
+
+    /* Desktop nav hide */
+    nav#mainNav {
+        display: none;
+
+        position: fixed;
+
+        top: 80px;
+
+        left: 0;
+
+        width: 100%;
+
+        height: 80vh;
+
+        background: white;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 0;
+
+        overflow-y: auto;
+
+        padding: 10px 0;
+    }
+
+
+    /* Checkbox checked -> menu show */
+    #nav-toggle:checked ~ header nav#mainNav {
+        display: flex;
+    }
+
+
+    nav#mainNav > a {
+        width: 100%;
+
+        padding: 16px 24px;
+
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+
+    /* Services full width */
+    .service-menu-wrapper {
+        width: 100%;
+    }
+
+
+    .service-btn {
+        width: 100%;
+
+        padding: 16px 24px;
+
+        border-bottom: 1px solid #f2f2f2;
+    }
+
+
+    /* Mobile dropdown */
+    .service-overlay {
+        position: static;
+
+        width: 100%;
+
+        transform: none;
+
+        box-shadow: none;
+
+        border: none;
+    }
+
+
+    /* Gents / Ladies vertical */
+    .gender-select {
+        flex-direction: column;
+
+        min-height: auto;
+    }
+
+
+    .gender-block:first-child {
+        border-right: none;
+
+        border-bottom: 1px solid #eeeeee;
+    }
+
+
+    /* Full ladies menu */
+    #view-ladies-full:checked ~ header .fullmenu-ladies {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* Sidebar horizontal */
+    .tab-sidebar {
+        display: flex;
+
+        overflow-x: auto;
+
+        grid-column: 1;
+    }
+
+
+    .service-category {
+        white-space: nowrap;
+
+        border-bottom: none;
+
+        border-right: 1px solid #eeeeee;
+    }
+
+
+    .tab-content {
+        grid-column: 1;
+
+        grid-row: 3;
+
+        padding-left: 0;
+
+        padding-top: 15px;
+    }
+
+
+    /* Hero */
+    .hero {
+        flex-direction: column;
+
+        padding: 60px 25px;
+    }
+
+
+    .hero-content {
+        width: 100%;
+
+        padding-right: 0;
+
+        margin-bottom: 40px;
+    }
+
+
+    .hero h1 {
+        font-size: 48px;
+    }
+
+
+    .hero-image {
+        width: 100%;
+
+        height: 450px;
+    }
+
+
+    /* About */
+    .about {
+        flex-direction: column;
+
+        padding: 70px 25px;
+
+        gap: 60px;
+    }
+
+
+    .about-image,
+    .about-content {
+        width: 100%;
+    }
+
+
+    .about-content {
+        padding-left: 0;
+    }
+
+
+    .about-content h2 {
+        font-size: 40px;
+    }
+
+
+    .experience-box {
+        right: 20px;
+    }
+
+
+    /* Service cards */
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* Details */
+    .detail-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    /* Contact */
+    .contact-container {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/*
+   19. SMALL MOBILE
+   500px கீழே
+    */
+
+@media (max-width: 500px) {
+
+
+    .logo img {
+        width: 120px;
+    }
+
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+
+    .hero-buttons {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+
+    .hero-image {
+        height: 350px;
+    }
+
+
+    .about-image img {
+        height: 430px;
+    }
+
+
+    .about-content h2 {
+        font-size: 34px;
+    }
+
+
+    .about-features {
+        flex-direction: column;
+
+        gap: 20px;
+    }
+
+
+    .service-category-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    .services-container {
+        grid-template-columns: 1fr;
+    }
+
+
+    .service-grid {
+        grid-template-columns: 1fr;
+    }
+
+
+    .section-heading h2 {
+        font-size: 35px;
+    }
+
+
+    .booking-content h2 {
+        font-size: 35px;
+    }
+
+
+    .footer-links {
+        flex-wrap: wrap;
+    }
+
+}
